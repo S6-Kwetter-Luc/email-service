@@ -5,5 +5,9 @@
         <RootNamespace>email_service</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="S652.MessageBroker" Version="1.2.1" />
+    </ItemGroup>
+
 
 </Project>
