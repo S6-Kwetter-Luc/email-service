@@ -1,15 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using email_service.Helper;
+using email_service.MessageHandlers;
+using email_service.Services;
+using MessageBroker;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace email_service
 {
@@ -25,7 +22,12 @@ namespace email_service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.Configure<EmailSettings>(Configuration.GetSection(nameof(EmailSettings)));
+            services.AddMessageConsumer(Configuration["MessageQueueSettings:Uri"], "email-service",
+                builder => builder.WithHandler<RegisterEmailHandler>("RegisterUser"));
+
+            services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<IEmailGenerator, EmailGenerator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -33,16 +35,8 @@ namespace email_service
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+
             }
-
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }
