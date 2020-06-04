@@ -1,7 +1,7 @@
 ﻿name: .NET Core
 
 on:
-  pull_request:
+  push:
     branches: [ master ]
 
 jobs:
@@ -102,7 +102,5 @@ jobs:
           manifests: |
             ./kube_develop/autoscaler.yaml
             ./kube_develop/deployment.yaml
-            ./kube_develop/ingress.yaml
-            ./kube_develop/service.yaml
           images: |
             ${{ secrets.DOCKER_ORGANIZATION }}/${{ secrets.REPOSITORY_NAME }}:${{ github.sha }}
