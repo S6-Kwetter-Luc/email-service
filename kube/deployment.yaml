@@ -18,8 +18,6 @@ spec:
         - name: email-service
           image: s6individualproject/email-service
           imagePullPolicy: IfNotPresent
-          ports:
-            - containerPort: 80
           resources:
             limits:
               cpu: 100m
