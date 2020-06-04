@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+
+metadata:
+  name: email-service-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: email.lucurlings.nl
+      http:
+        paths:
+          - backend:
+              serviceName: email-service
+              servicePort: 80
