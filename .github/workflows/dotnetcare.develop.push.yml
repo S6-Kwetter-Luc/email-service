@@ -67,7 +67,7 @@ jobs:
           path: ./kube_develop
 
   delivery:
-    needs: build
+    needs: [sonarcloud-scan, build]
     runs-on: ubuntu-18.04
     steps:
       - name: Download release artifact
